@@ -37,7 +37,7 @@ bot.onText(/\/start/, (msg) => {
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
   console.log(`/help command received from ${chatId}`);
-  bot.sendMessage(chatId, 'Here is the list of commands:\n/help - Show the list of commands\n/meow - Show a random cat picture');
+  bot.sendMessage(chatId, 'Here is the list of commands:\n/help - Show the list of commands\n/meow - Show a random cat meme');
 });
 
 // Handle the /meow command
