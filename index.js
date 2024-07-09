@@ -3,6 +3,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -28,18 +29,21 @@ if (!fs.existsSync(MEME_DIRECTORY)) {
 // Handle the /start command
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
+  console.log(`/start command received from ${chatId}`);
   bot.sendMessage(chatId, `Hello! I am ${BOT_USERNAME}. Send "/help" to see the list of commands.`);
 });
 
 // Handle the /help command
 bot.onText(/\/help/, (msg) => {
   const chatId = msg.chat.id;
+  console.log(`/help command received from ${chatId}`);
   bot.sendMessage(chatId, 'Here is the list of commands:\n/help - Show the list of commands\n/meow - Show a random cat picture');
 });
 
 // Handle the /meow command
 bot.onText(/\/meow/, (msg) => {
   const chatId = msg.chat.id;
+  console.log(`/meow command received from ${chatId}`);
 
   // Read the meme directory to get the list of meme files
   fs.readdir(MEME_DIRECTORY, (err, files) => {
@@ -62,7 +66,11 @@ bot.onText(/\/meow/, (msg) => {
       const memePath = path.join(MEME_DIRECTORY, randomMeme);
 
       // Send the selected meme to the user
-      bot.sendPhoto(chatId, memePath);
+      bot.sendPhoto(chatId, memePath).then(() => {
+        console.log(`Meme sent to ${chatId}: ${randomMeme}`);
+      }).catch(error => {
+        console.error('Error sending meme:', error);
+      });
     } else {
       // No memes found in the directory
       bot.sendMessage(chatId, 'No cat memes found!');
@@ -76,3 +84,15 @@ bot.on('polling_error', (error) => {
 });
 
 console.log('Bot started');
+
+// Set up Express server
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('Bot is running!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
