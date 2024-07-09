@@ -1,21 +1,14 @@
 {
-  "name": "cat-meme-bot-node",
+  "name": "telegram-bot",
   "version": "1.0.0",
-  "description": "A Telegram bot that sends cat memes",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node api/index.js"
   },
-  "keywords": [
-    "telegram",
-    "bot",
-    "cat memes"
-  ],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "node-telegram-bot-api": "^0.66.0"
+    "node-telegram-bot-api": "^0.66.0",
+    "express": "^4.17.1"
   }
 }
+
