@@ -8,7 +8,6 @@ const app = express();
 app.use(express.json());
 
 const TOKEN = process.env.TOKEN;
-const WEBHOOK_URL = process.env.WEBHOOK_URL;
 const bot = new Telegraf(TOKEN);
 const MEME_DIRECTORY = path.resolve(__dirname, '../memes');
 
@@ -63,19 +62,10 @@ bot.command('meow', (ctx) => {
   });
 });
 
-// Set the webhook
-bot.telegram.setWebhook(`${WEBHOOK_URL}/telegram`);
-
 app.post('/telegram', (req, res) => {
   bot.handleUpdate(req.body, res);
 });
 
 app.get('/', (req, res) => {
   res.send('Bot is running!');
-});
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });
